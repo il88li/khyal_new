@@ -1,0 +1,15 @@
+{
+  "expo": {
+    "name": "خيال",
+    "slug": "khayal",
+    "version": "1.0.0",
+    "scheme": "khayal",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": { "supportsTablet": false, "bundleIdentifier": "app.khayal.mobile" },
+    "android": { "package": "app.khayal.mobile", "supportsRtl": true },
+    "plugins": ["expo-router"],
+    "experiments": { "typedRoutes": false }
+  }
+}
