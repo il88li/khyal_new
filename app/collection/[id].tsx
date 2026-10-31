@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Alert, View } from 'react-native';
+import { View } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import { useStore } from '../../src/store';
 import { space } from '../../src/theme';
-import { Button, Empty, IconBtn, Input, PinGrid, Row, Screen, Sheet, T, goBack, useToast } from '../../src/ui';
+import { Button, Empty, IconBtn, Input, PinGrid, Row, Screen, Sheet, T, confirmAction, goBack, useToast } from '../../src/ui';
 
 // 14) CollectionDetailScreen
 export default function CollectionDetailScreen() {
@@ -19,10 +19,7 @@ export default function CollectionDetailScreen() {
   const items = col.promptIds.map((pid) => visiblePrompts.find((p) => p.id === pid)).filter(Boolean) as typeof s.prompts;
   const del = () => {
     setMenu(false);
-    Alert.alert('حذف المجموعة', 'لن تُحذف البرومبتات نفسها. متابعة؟', [
-      { text: 'إلغاء', style: 'cancel' },
-      { text: 'حذف', style: 'destructive', onPress: () => { deleteCollection(col.id); goBack(); toast('تم حذف المجموعة'); } },
-    ]);
+    confirmAction('حذف المجموعة', 'لن تُحذف البرومبتات نفسها. متابعة؟', 'حذف', () => { deleteCollection(col.id); goBack(); toast('تم حذف المجموعة'); });
   };
   return (
     <Screen back title={col.name} right={<IconBtn icon="ellipsis-horizontal" onPress={() => setMenu(true)} />}>

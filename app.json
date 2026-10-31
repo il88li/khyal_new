@@ -7,9 +7,23 @@
     "orientation": "portrait",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
-    "ios": { "supportsTablet": false, "bundleIdentifier": "app.khayal.mobile" },
-    "android": { "package": "app.khayal.mobile", "supportsRtl": true },
-    "plugins": ["expo-router"],
-    "experiments": { "typedRoutes": false }
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "app.khayal.mobile"
+    },
+    "android": {
+      "package": "app.khayal.mobile",
+      "supportsRtl": true
+    },
+    "plugins": [
+      "expo-router"
+    ],
+    "experiments": {
+      "typedRoutes": false
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "single"
+    }
   }
 }

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { DevSettings, I18nManager } from 'react-native';
+import { DevSettings, I18nManager, Platform } from 'react-native';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -7,7 +7,9 @@ import { StoreProvider, useStore } from '../src/store';
 import { ToastProvider } from '../src/ui';
 
 // فرض RTL: يحتاج إعادة تحميل مرة واحدة بعد أول تشغيل.
-if (!I18nManager.isRTL) {
+if (Platform.OS === 'web') {
+  if (typeof document !== 'undefined') { document.documentElement.dir = 'rtl'; document.documentElement.lang = 'ar'; }
+} else if (!I18nManager.isRTL) {
   I18nManager.allowRTL(true);
   I18nManager.forceRTL(true);
   if (__DEV__) setTimeout(() => DevSettings.reload(), 50);

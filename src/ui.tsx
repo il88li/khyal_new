@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
 import {
-  ActivityIndicator, Animated, I18nManager, Image, KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, StyleProp,
+  ActivityIndicator, Alert, Animated, I18nManager, Image, KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, StyleProp,
   Switch as RNSwitch, Text, TextInput, TextInputProps, TextStyle, View, ViewStyle, useWindowDimensions,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -10,6 +10,11 @@ import { fmt, useStore } from './store';
 import { Palette, gridFor, radius, space, type } from './theme';
 import { Prompt } from './types';
 
+const RTL = Platform.OS === 'web' || I18nManager.isRTL;
+export function confirmAction(title: string, msg: string, okText: string, onOk: () => void) {
+  if (Platform.OS === 'web') { if (typeof window !== 'undefined' && window.confirm(`${title}\n${msg}`)) onOk(); return; }
+  Alert.alert(title, msg, [{ text: 'إلغاء', style: 'cancel' }, { text: okText, style: 'destructive', onPress: onOk }]);
+}
 type IconName = React.ComponentProps<typeof Ionicons>['name'];
 
 /* ---------- Text ---------- */
@@ -163,7 +168,7 @@ export function Screen({ title, back, right, children, scroll = true, tabs, foot
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
         {header && (
           <View style={{ height: 64, flexDirection: 'row', alignItems: 'center', paddingHorizontal: space.lg, gap: space.md, borderBottomWidth: 1, borderBottomColor: c.hairline }}>
-            {back && <IconBtn icon={I18nManager.isRTL ? 'arrow-forward' : 'arrow-back'} onPress={goBack} />}
+            {back && <IconBtn icon={RTL ? 'arrow-forward' : 'arrow-back'} onPress={goBack} />}
             <T v="headingMd" style={{ flex: 1 }} numberOfLines={1}>{title}</T>
             {right}
           </View>
@@ -212,7 +217,7 @@ export function Row({ icon, label, value, onPress, right, danger }: { icon?: Ico
       {icon && <Ionicons name={icon} size={22} color={danger ? c.error : c.ink} />}
       <T v="bodyStrong" style={{ flex: 1, color: danger ? c.error : c.ink }}>{label}</T>
       {!!value && <T v="bodySm" color="mute">{value}</T>}
-      {right ?? (onPress && <Ionicons name={I18nManager.isRTL ? 'chevron-back' : 'chevron-forward'} size={18} color={c.ash} />)}
+      {right ?? (onPress && <Ionicons name={RTL ? 'chevron-back' : 'chevron-forward'} size={18} color={c.ash} />)}
     </Pressable>
   );
 }

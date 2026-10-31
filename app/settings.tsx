@@ -1,18 +1,15 @@
 import React from 'react';
-import { Alert, View } from 'react-native';
+import { View } from 'react-native';
 import { router } from 'expo-router';
 import { useStore } from '../src/store';
 import { space } from '../src/theme';
-import { Button, Chip, Row, Screen, SectionTitle, T, Toggle, UserRow, useToast } from '../src/ui';
+import { Button, Chip, Row, Screen, SectionTitle, T, Toggle, UserRow, confirmAction, useToast } from '../src/ui';
 
 export default function SettingsScreen() {
   const { s, me, setTheme, updateProfile, logout, toggleBlock } = useStore();
   const toast = useToast();
   const blocked = s.blocks.filter((b) => b.startsWith(`${me?.id}>`)).map((b) => b.split('>')[1]);
-  const out = () => Alert.alert('تسجيل الخروج', 'هل تريد تسجيل الخروج؟', [
-    { text: 'إلغاء', style: 'cancel' },
-    { text: 'خروج', style: 'destructive', onPress: () => { logout(); router.replace('/splash'); } },
-  ]);
+  const out = () => confirmAction('تسجيل الخروج', 'هل تريد تسجيل الخروج؟', 'خروج', () => { logout(); router.replace('/splash'); });
   return (
     <Screen back title="الإعدادات">
       <SectionTitle style={{ marginTop: space.lg }}>المظهر</SectionTitle>

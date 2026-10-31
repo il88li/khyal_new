@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { Alert, Image, Pressable, Text, TextInput, View } from 'react-native';
+import { Image, Pressable, Text, TextInput, View } from 'react-native';
 import * as Clipboard from 'expo-clipboard';
 import { router, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { extractVars } from '../../src/promptForm';
 import { fillVars, fmt, timeAgo, useStore } from '../../src/store';
 import { radius, space, type } from '../../src/theme';
-import { Avatar, Button, Chip, Empty, IconBtn, Input, Row, Screen, SectionTitle, Sheet, T, goBack, useToast } from '../../src/ui';
+import { Avatar, Button, Chip, Empty, IconBtn, Input, Row, Screen, SectionTitle, Sheet, T, confirmAction, goBack, useToast } from '../../src/ui';
 
 // 8) PromptDetailScreen
 export default function PromptDetailScreen() {
@@ -52,10 +52,7 @@ export default function PromptDetailScreen() {
   };
   const confirmDelete = () => {
     setMenu(false);
-    Alert.alert('حذف البرومبت', 'سيُحذف نهائيًا مع تعليقاته. هل تريد المتابعة؟', [
-      { text: 'إلغاء', style: 'cancel' },
-      { text: 'حذف', style: 'destructive', onPress: () => { deletePrompt(p.id); goBack(); toast('تم حذف البرومبت'); } },
-    ]);
+    confirmAction('حذف البرومبت', 'سيُحذف نهائيًا مع تعليقاته. هل تريد المتابعة؟', 'حذف', () => { deletePrompt(p.id); goBack(); toast('تم حذف البرومبت'); });
   };
   const send = () => {
     if (!text.trim()) return;
